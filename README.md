@@ -1,4 +1,5 @@
-# Elastic-Search Kibana Fluentd
+# Elastic-Search Kibana Fluentd for the Log Aggregation
+
 EKF is used to store and publish the apllication logs to get a real time view of the application status and deep dive to resolve the problems if any.
 
 
@@ -12,3 +13,14 @@ Cluster Role and Role Binding: This is needed to authorize the fluentd to collec
 
 
 Elastic Search:
+It is a database to store, retrieve and manage bot the document orieneted as well as semi-strucuted data like logs.
+Its deployed as Statefulset typically with 2-3 pods where one pod is master while rest are slaves.
+
+
+Kibana: It helps to explore the log data stored in the ES Database through Web Interface, build dashboards and queries to help gain real-time insight into the applications
+running in the kubernetes cluster.
+
+Depoly the EFK:
+Clone the EFK repo
+$ 
+
