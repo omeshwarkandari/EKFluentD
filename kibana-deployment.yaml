@@ -16,7 +16,7 @@ spec:
       labels:
         k8s-app: kibana-logging
       annotations:
-        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
+        seccompProfile.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
       containers:
       - name: kibana-logging
