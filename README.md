@@ -21,6 +21,43 @@ Kibana: It helps to explore the log data stored in the ES Database through Web I
 running in the kubernetes cluster.
 
 Depoly the EFK:
-Clone the EFK repo
-$ 
+Login the Master Server and clone the EFK repo:
+$ git clone https://github.com/omeshwarkandari/EKFluentD.git
+kubeadm@Master-Node:~$ cd EKF/EKFluentD/
+kubeadm@Master-Node:~/EKF/EKFluentD$ ls
+README.md  es-service.yaml  es-statefulset.yaml  fluentd-es-configmap.yaml  fluentd-es-ds.yaml  kibana-deployment.yaml  kibana-service.yaml
+$ kubectl apply -f .
+This will create required configuration inside a new namespace "efklog" as mentioned in the deployment and get all the objects inside ns efklog.
+$ kubectl get all -n efklog
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/elasticsearch-logging-0           1/1     Running   0          43m
+pod/elasticsearch-logging-1           1/1     Running   0          43m
+pod/fluentd-es-v2.7.0-htk2q           1/1     Running   0          43m
+pod/fluentd-es-v2.7.0-v64mb           1/1     Running   0          43m
+pod/kibana-logging-54b4c97577-hzq6g   1/1     Running   0          43m
 
+NAME                            TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+service/elasticsearch-logging   ClusterIP      10.96.6.60      <none>        9200/TCP         43m
+service/kibana-logging          LoadBalancer   10.100.22.246   <pending>     5601:30493/TCP   43m
+
+NAME                               DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR   AGE
+daemonset.apps/fluentd-es-v2.7.0   2         2         2       2            2           <none>          43m
+
+NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/kibana-logging   1/1     1            1           43m
+
+NAME                                        DESIRED   CURRENT   READY   AGE
+replicaset.apps/kibana-logging-54b4c97577   1         1         1       43m
+
+NAME                                     READY   AGE
+statefulset.apps/elasticsearch-logging   2/2     43m
+
+
+Explore the Kibana dashboard on the http:<Public-IP>:30493
+Once dashboard is visible follow below steps to see the metrics:
+1. Click on the icon "Discover"
+2. Create an index pattern by entering "*" in the index pattern space and click next
+3. Select the time stamp "@Timestamp" and click next
+4. Click on the Create Index Pattern
+5. Click on the Discover again and the dashboard is ready
+6. Customize or add filter....
